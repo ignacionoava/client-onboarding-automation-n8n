@@ -1,0 +1,7 @@
+{
+  "ok": false,
+  "route": "DUPLICATE",
+  "message": "Lead already exists",
+  "executionId": "EXAMPLE_EXECUTION_ID",
+  "email": "maria.lopez+new@pm.me"
+}

@@ -1,0 +1,12 @@
+{
+  "ok": false,
+  "route": "INVALID",
+  "message": "Validation failed",
+  "executionId": "EXAMPLE_EXECUTION_ID",
+  "errors": [
+    {
+      "code": "EMAIL_INVALID",
+      "message": "email is invalid"
+    }
+  ]
+}
