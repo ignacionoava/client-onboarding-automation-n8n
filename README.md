@@ -1,8 +1,29 @@
+# Client Onboarding Automation (n8n)
+
+![n8n](https://img.shields.io/badge/n8n-automation-orange)
+![Status](https://img.shields.io/badge/status-portfolio--ready-brightgreen)
+![License](https://img.shields.io/badge/license-MIT-blue)
+
 # Client Onboarding Automation (n8n) — Portfolio
 
 Production-style onboarding automation built with **n8n + Google Sheets + Gmail**.
 
 It receives onboarding submissions via a **Webhook**, performs **API-key authentication**, normalizes & validates the payload, checks for duplicates in Google Sheets, logs every execution, sends internal/external email notifications, and returns proper HTTP status codes.
+
+---
+
+## What it does
+
+Automates client onboarding intake via webhook, validates payload, detects duplicates, logs to Google Sheets, and sends internal/external notifications.
+
+---
+
+## Tech stack
+
+- n8n (Webhook, Code, Switch/IF)
+- Google Sheets
+- Gmail (SMTP via n8n Gmail node)
+- Postman (testing)
 
 ---
 
@@ -28,9 +49,27 @@ Webhook → Auth Guard → Normalize/Validate → Sheets Lookup → Route Switch
 
 ---
 
+## Routes
+
+- **NEW**: New lead → append to Leads sheet → internal + external email
+- **DUPLICATE**: Duplicate lead → log duplicate → internal + external email
+- **INVALID**: Invalid payload → log invalid → internal email always; external email only if email is valid
+
+---
+
 ## Google Sheets schema
 
 See: `docs/schema.md`
+
+---
+
+## How to test (Postman)
+
+1. Import the Postman collection from `/postman`
+2. Run:
+   - NEW payload
+   - DUPLICATE payload
+   - INVALID payload
 
 ---
 
@@ -56,7 +95,7 @@ See also: `postman/notes.md`
 
 ## Screenshots
 
-Add these files under `screenshots/` (recommended):
+See `/screenshots`
 
 - `01-workflow-overview.png`
 - `02-new-201.png`
@@ -89,6 +128,10 @@ Add these files under `screenshots/` (recommended):
 - Add **retries + dead-letter logging** for external integrations (email/sheets) and alerting on failures.
 - Move persistence from Sheets to a database (e.g., Postgres/Supabase) and keep Sheets only for reporting.
 - Add an automated **test harness** (collection runner) to validate all routes on every change.
+
+## Privacy
+
+This repo uses placeholders like `your-email@example.com` and does not include secrets or real credentials.
 
 ## Quick demo (60 seconds)
 
