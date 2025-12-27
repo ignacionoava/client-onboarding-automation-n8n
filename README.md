@@ -63,3 +63,36 @@ Add these files under `screenshots/` (recommended):
 - `03-duplicate-409.png`
 - `04-invalid-400.png`
 - `05-unauthorized-401.png`
+
+---
+
+## Project highlights (why this is production-style)
+
+- **Defensive automation**: validation + safe branching to avoid failures (e.g., no external email when address is invalid).
+- **Observability**: every run is logged in an append-only **Logs** sheet with route + executionId + errors.
+- **API-first**: standardized JSON responses with proper HTTP status codes (201/409/400/401).
+- **Idempotency / dedupe**: prevents duplicate onboarding via `emailNormalized`.
+
+---
+
+## Tradeoffs & decisions
+
+- **Google Sheets as storage** was chosen for speed and transparency during early-stage operations (easy to audit and demo).
+- **Gmail for notifications** keeps the MVP simple; in production at scale, this can be replaced with a dedicated email service.
+- **API key auth** is a minimal security layer suitable for demos; production can add HMAC signatures, IP allowlists, and rate limiting.
+
+---
+
+## V2 improvements (roadmap)
+
+- Add **rate limiting** + basic bot detection (anti-spam).
+- Add **retries + dead-letter logging** for external integrations (email/sheets) and alerting on failures.
+- Move persistence from Sheets to a database (e.g., Postgres/Supabase) and keep Sheets only for reporting.
+- Add an automated **test harness** (collection runner) to validate all routes on every change.
+
+## Quick demo (60 seconds)
+
+1. Send `postman/payload_new.json` → expect **201**
+2. Send it again (`payload_duplicate.json`) → expect **409**
+3. Send `postman/payload_invalid.json` → expect **400**
+4. Remove `x-api-key` header → expect **401**
